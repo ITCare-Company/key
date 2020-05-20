@@ -32,7 +32,7 @@ function drush_key_save($id, $key_value = NULL) {
 
   // Add a warning about overwriting a key.
   if ($existing_key) {
-    $this->logger->warning('Be extremely careful when overwriting a key! It may result in losing access to a service or making encrypted data unreadable.');
+    \Drupal::logger('key')->log('warning', (dt('Be extremely careful when overwriting a key! It may result in losing access to a service or making encrypted data unreadable.')));
   }
 
   // Confirm that the key should be saved.
@@ -93,5 +93,5 @@ function drush_key_save($id, $key_value = NULL) {
     return drush_set_error('DRUSH_KEY_NOT_SAVED', dt('Key !id was not saved.', ['!id' => $values['id']]));
   }
 
-  $this->logger->info('Key !id was saved successfully.', ['!id' => $values['id']]);
+  \Drupal::logger('key')->log('success', (dt('Key !id was saved successfully.', ['!id' => $values['id']])));
 }

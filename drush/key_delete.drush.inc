@@ -24,7 +24,7 @@ function drush_key_delete($id) {
   }
 
   // Confirm that the key should be deleted.
-  $this->logger->warning('Be extremely careful when deleting a key! It may result in losing access to a service or making encrypted data unreadable.');
+  \Drupal::logger('key')->log('warning', (dt('Be extremely careful when deleting a key! It may result in losing access to a service or making encrypted data unreadable.')));
   drush_print(dt('The following key will be deleted: !id', ['!id' => $id]));
   if (!drush_confirm(dt('Do you really want to continue?'))) {
     return drush_user_abort();
@@ -41,5 +41,5 @@ function drush_key_delete($id) {
     return drush_set_error('DRUSH_KEY_NOT_DELETED', dt('Key !id was not deleted.', ['!id' => $id]));
   }
 
-  $this->logger->info('Key !id was deleted successfully.', ['!id' => $id]);
+  \Drupal::logger('key')->log('success', (dt('Key !id was deleted successfully.', ['!id' => $id])));
 }
