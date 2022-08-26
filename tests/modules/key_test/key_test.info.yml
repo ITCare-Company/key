@@ -1,6 +1,6 @@
 name: Key test
 description: 'Key test module'
-core_version_requirement: ^8.8 || ~9.0
+core_version_requirement: ^8.8 || ~9.0 || ^10
 type: module
 dependencies:
   - key:key

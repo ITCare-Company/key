@@ -24,8 +24,28 @@ class AuthenticationKeyType extends KeyTypeBase {
    * {@inheritdoc}
    */
   public static function generateKeyValue(array $configuration) {
-    // Generate a random 16-character password.
-    return user_password(16);
+    // The password_generator service was introduced in Drupal 9.1.0 and Key
+    // currently supports versions of Drupal below 9.1.0, so ensure that the
+    // password_generator service exists before calling it and provide a
+    // fallback for backward compatibility.
+    // @todo Remove the check for the password_generator service and the
+    // fallback once Key no longer supports versions of Drupal below 9.1.0.
+    if (\Drupal::getContainer()->has('password_generator')) {
+      $password = \Drupal::service('password_generator')->generate(16);
+    }
+    else {
+      // Reproduce the functionality of the password_generator service.
+      // @see \Drupal\Core\Password\DefaultPasswordGenerator::generate()
+      $allowed_chars = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      $max = strlen($allowed_chars) - 1;
+      $length = 16;
+      $password = '';
+      for ($i = 0; $i < $length; $i++) {
+        $password .= $allowed_chars[random_int(0, $max)];
+      }
+    }
+
+    return $password;
   }
 
   /**
