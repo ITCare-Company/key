@@ -74,7 +74,7 @@ interface KeyRepositoryInterface {
    *   The key ID to use.
    *
    * @return \Drupal\key\Entity\Key|null
-   *   The key object with the given id.
+   *   The key object with the given id or null if no key was available.
    */
   public function getKey($key_id);
 
