@@ -35,7 +35,7 @@ class AuthenticationKeyType extends KeyTypeBase {
     }
     else {
       // @phpstan-ignore-next-line
-      return \Drupal::service('password_generator')->generate(16);
+      return user_password(16);
     }
 
     return $password;
