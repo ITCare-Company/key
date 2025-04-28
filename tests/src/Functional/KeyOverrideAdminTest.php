@@ -21,6 +21,13 @@ class KeyOverrideAdminTest extends BrowserTestBase {
   protected $defaultTheme = 'stark';
 
   /**
+   * The Drupal user entity.
+   *
+   * @var \Drupal\user\Entity\User
+   */
+  protected $overrideUser;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
