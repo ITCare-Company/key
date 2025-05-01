@@ -13,6 +13,9 @@ class KeyOverrideAdminTest extends BrowserTestBase {
 
   use KeyTestTrait;
 
+  /**
+   * {@inheritdoc}
+   */
   protected static $modules = ['key'];
 
   /**

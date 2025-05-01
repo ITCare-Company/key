@@ -11,7 +11,7 @@ use Drush\Commands\DrushCommands;
 use Drush\Utils\StringUtils;
 
 /**
- * Class KeyCommands.
+ * Drush commands for managing keys.
  *
  * @package Drupal\key\Commands
  */
@@ -52,7 +52,7 @@ class KeyCommands extends DrushCommands {
     KeyRepositoryInterface $repository,
     KeyPluginManager $key_plugin_manager,
     EntityTypeManagerInterface $entity_type_manager,
-    KeyPluginManager $provider_manager
+    KeyPluginManager $provider_manager,
   ) {
     $this->repository = $repository;
     $this->keyTypePluginManager = $key_plugin_manager;
@@ -100,7 +100,7 @@ class KeyCommands extends DrushCommands {
       'key-provider-settings' => NULL,
       'key-input' => NULL,
       'key-input-settings' => NULL,
-    ]
+    ],
   ) {
     $values = [];
     $values['id'] = $id;
@@ -191,7 +191,7 @@ class KeyCommands extends DrushCommands {
   public function delete($id, array $options = []) {
     // Look for a key with the specified ID. If one does not exist, set an
     // error and abort.
-    /* @var $key \Drupal\key\Entity\Key */
+    /** @var \Drupal\key\Entity\Key $key */
     $key = $this->repository->getKey($id);
     if (!$key) {
       throw new \Exception(dt('Key !id does not exist.', ['!id' => $id]));
@@ -234,7 +234,7 @@ class KeyCommands extends DrushCommands {
   public function keyList(array $options = ['key-type' => NULL, 'key-provider' => NULL]) {
     $result = [];
 
-    /* @var $key \Drupal\key\Entity\Key */
+    /** @var \Drupal\key\Entity\Key $key */
     $keys = $this->repository->getKeys();
 
     // Filter by key type, if specified.
@@ -305,10 +305,12 @@ class KeyCommands extends DrushCommands {
    * @aliases key-provider-list
    * @format table
    */
-  public function providerList($options = [
-    'tags' => NULL,
-    'storage-method' => NULL,
-  ]) {
+  public function providerList(
+    $options = [
+      'tags' => NULL,
+      'storage-method' => NULL,
+    ],
+  ) {
     $result = [];
 
     $tags = StringUtils::csvToArray($options['tags']);
@@ -351,7 +353,7 @@ class KeyCommands extends DrushCommands {
     $result = [];
     // Look for a key with the specified ID. If one does not exist, set an
     // error and abort.
-    /* @var $key \Drupal\key\Entity\Key */
+    /** @var \Drupal\key\Entity\Key $key */
     $key = $this->repository->getKey($id);
     if (!$key) {
       throw new \Exception(dt('Key !id does not exist.', ['!id' => $id]));

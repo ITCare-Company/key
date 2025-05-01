@@ -2,8 +2,8 @@
 
 namespace Drupal\key_test\Plugin\KeyProvider;
 
+use Drupal\key\Plugin\KeyProviderBase;
 use Drupal\key\KeyInterface;
-
 
 /**
  * Plugin with deprecated definition entries.
@@ -18,7 +18,7 @@ use Drupal\key\KeyInterface;
  *   }
  * )
  */
-class DeprecatedDefinition extends \Drupal\key\Plugin\KeyProviderBase {
+class DeprecatedDefinition extends KeyProviderBase {
 
   /**
    * {@inheritdoc}
