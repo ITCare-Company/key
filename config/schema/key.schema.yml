@@ -143,3 +143,11 @@ key.config_override.*:
     key_id:
       type: string
       label: 'Key ID'
+
+key.provider.state:
+  type: mapping
+  label: 'State key provider settings'
+  mapping:
+    key:
+      type: string
+      label: 'Key'
