@@ -5,6 +5,7 @@ namespace Drupal\key\Commands;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\key\KeyRepositoryInterface;
 use Drupal\key\Plugin\KeyPluginManager;
 use Drush\Commands\DrushCommands;
@@ -46,6 +47,13 @@ class KeyCommands extends DrushCommands {
   protected $keyProviderPluginManager;
 
   /**
+   * Key logging service.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  protected $loggerChannel;
+
+  /**
    * Constructs a new KeyCommands drush command.
    */
   public function __construct(
@@ -53,11 +61,13 @@ class KeyCommands extends DrushCommands {
     KeyPluginManager $key_plugin_manager,
     EntityTypeManagerInterface $entity_type_manager,
     KeyPluginManager $provider_manager,
+    LoggerChannelFactoryInterface $loggerChannelFactory,
   ) {
     $this->repository = $repository;
     $this->keyTypePluginManager = $key_plugin_manager;
     $this->entityTypeManager = $entity_type_manager;
     $this->keyProviderPluginManager = $provider_manager;
+    $this->loggerChannel = $loggerChannelFactory->get('key');
   }
 
   /**
@@ -316,7 +326,7 @@ class KeyCommands extends DrushCommands {
     $tags = StringUtils::csvToArray($options['tags']);
     if ($options['storage-method']) {
       @trigger_error("The Drush --storage-method option is deprecated in key:1.18.0 and is removed from key:2.0.0. Use the --tags option instead. See https://www.drupal.org/node/3364701", E_USER_DEPRECATED);
-      \Drupal::logger('key')->log('warning', (dt("The Drush --storage-method option is deprecated in key:1.18.0 and is removed from key:2.0.0. Use the --tags option instead. See https://www.drupal.org/node/3364701")));
+      $this->loggerChannel->warning("The Drush --storage-method option is deprecated in key:1.18.0 and is removed from key:2.0.0. Use the --tags option instead. See https://www.drupal.org/node/3364701");
       $tags[] = $options['storage-method'];
       $tags = array_unique($tags);
     }

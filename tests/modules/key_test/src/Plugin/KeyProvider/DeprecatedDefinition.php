@@ -24,6 +24,7 @@ class DeprecatedDefinition extends KeyProviderBase {
    * {@inheritdoc}
    */
   public function getKeyValue(KeyInterface $key) {
+    return "deprecatedkey";
   }
 
 }
