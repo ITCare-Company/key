@@ -5,6 +5,9 @@ namespace Drupal\key\Plugin;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\key\Attribute\KeyInput;
+use Drupal\key\Attribute\KeyProvider;
+use Drupal\key\Attribute\KeyType;
 
 /**
  * Manages Key plugins.
@@ -37,6 +40,11 @@ class KeyPluginManager extends DefaultPluginManager {
       'key_provider' => 'Drupal\key\Annotation\KeyProvider',
       'key_input' => 'Drupal\key\Annotation\KeyInput',
     ];
+    $type_attributes = [
+      'key_type' => KeyType::class,
+      'key_provider' => KeyProvider::class,
+      'key_input' => KeyInput::class,
+    ];
     $plugin_interfaces = [
       'key_type' => 'Drupal\key\Plugin\KeyTypeInterface',
       'key_provider' => 'Drupal\key\Plugin\KeyProviderInterface',
@@ -46,7 +54,7 @@ class KeyPluginManager extends DefaultPluginManager {
     $this->pluginType = $type;
     $this->subdir = 'Plugin/' . str_replace(' ', '', ucwords(str_replace('_', ' ', $type)));
 
-    parent::__construct($this->subdir, $namespaces, $module_handler, $plugin_interfaces[$type], $type_annotations[$type]);
+    parent::__construct($this->subdir, $namespaces, $module_handler, $plugin_interfaces[$type], $type_attributes[$type], $type_annotations[$type]);
     $this->alterInfo($type . '_info');
     $this->setCacheBackend($cache_backend, $type, ['key_plugins']);
   }
