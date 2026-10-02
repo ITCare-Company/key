@@ -341,10 +341,13 @@ class Key extends ConfigEntityBase implements KeyInterface, EntityWithPluginColl
     // Allow the key provider to perform post-save actions.
     $this->getKeyProvider()->postSave($this, $storage, $update);
 
+    // D12: EntityBase::$original was renamed to $originalEntity with no BC
+    // magic getter (change record 3295826) -- use getOriginal() when present.
+    $original_entity = method_exists($this, 'getOriginal') ? $this->getOriginal() : $this->original;
     // If an original key exists.
-    if (isset($this->original)) {
+    if (isset($original_entity)) {
       /** @var \Drupal\key\Entity\Key $original */
-      $original = $this->original;
+      $original = $original_entity;
 
       // If the original key's provider allows setting a key value and
       // the plugin ID is different from the one that was just saved with
